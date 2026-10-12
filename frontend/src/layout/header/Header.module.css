@@ -1,0 +1,79 @@
+.header {
+  width: 100%;
+  background-color: #ffffff;
+  border-bottom: 1px solid #f0f0f0;
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Логотип */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.logoIcon {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+}
+
+.logoText {
+  font-size: 36px;
+  color: #060606;
+  font-family: inherit;
+}
+
+/* Кнопки авторизации */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.loginBtn {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  font-weight: 500;
+  color: #2d3748;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: color 0.15s ease;
+}
+
+.loginBtn:hover {
+  color: #008968;
+}
+
+.registerBtn {
+  background-color: #008968;
+  color: #ffffff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.05s ease;
+}
+
+.registerBtn:hover {
+  background-color: #007559;
+}
+
+.registerBtn:active {
+  transform: scale(0.98);
+}

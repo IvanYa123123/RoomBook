@@ -1,0 +1,73 @@
+.fieldWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.labelIcon {
+  width: 15px;
+  height: 15px;
+  object-fit: contain;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  white-space: nowrap;
+}
+
+/* Обертка поля: управляет фоном и рамкой */
+.inputContainer {
+  display: flex;
+  width: 100%;
+  background-color: #f1f4f9;
+  border: 1.5px solid transparent; /* В покое обводка прозрачная */
+  border-radius: 8px;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* ПРИ АКТИВНОСТИ / В ФОКУСЕ: */
+.inputContainer:focus-within {
+  border-color: #008968; /* Зеленая обводка только когда поле активно */
+  background-color: #ffffff;
+}
+
+/* При ошибке валидации */
+.inputContainer.hasError {
+  border-color: #ef4444 !important;
+  background-color: #fef2f2 !important;
+}
+
+/* Базовый сброс для любых инпутов, помещенных в SearchField */
+.inputContainer input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: 500;
+  color: #0f172a;
+  box-sizing: border-box;
+}
+
+.errorMessage {
+  position: absolute;
+  bottom: -18px;
+  left: 2px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #ef4444;
+  white-space: nowrap;
+}

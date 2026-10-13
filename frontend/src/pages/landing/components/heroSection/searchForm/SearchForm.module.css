@@ -1,0 +1,111 @@
+.form {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 14px 18px 22px; 
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1080px;
+}
+
+/* Иконка метки слева */
+.locationBadge {
+  width: 52px;
+  height: 52px;
+  background-color: #f1f4f9;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.badgeIcon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.iconPlaceholder {
+  font-size: 22px;
+}
+
+/* Размеры и пропорции колонок */
+.destinationField {
+  flex: 1.6;
+  min-width: 180px;
+}
+
+.dateField {
+  flex: 1;
+  min-width: 120px;
+}
+
+.guestsField {
+  flex: 0.6;
+  min-width: 70px;
+}
+
+/* Вертикальный разделитель */
+.divider {
+  width: 1px;
+  height: 38px;
+  background-color: #e2e8f0;
+  flex-shrink: 0;
+}
+
+/* Кнопка "Найти" */
+.searchButton {
+  align-self: stretch; 
+  height: auto;       
+  background-color: #008968;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 0px 26px;
+  font-size: 15px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.15s ease, transform 0.05s ease;
+}
+
+.searchButton:hover {
+  background-color: #007559;
+}
+
+.searchButton:active {
+  transform: scale(0.98);
+}
+
+.searchIcon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.searchIconPlaceholder {
+  font-size: 14px;
+}
+
+/* Адаптивность под мобильные экраны */
+@media (max-width: 900px) {
+  .form {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px;
+  }
+
+  .divider,
+  .locationBadge {
+    display: none;
+  }
+}

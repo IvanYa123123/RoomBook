@@ -1,0 +1,64 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.textInput {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 8px 30px 8px 10px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #0f172a;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.textInput:focus {
+  border-color: #cbd5e1;
+  background-color: #ffffff;
+}
+
+/* Кнопка открытия календаря внутри инпута */
+.calendarButton {
+  position: absolute;
+  right: 6px;
+  background: none;
+  border: none;
+  padding: 2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+  transition: opacity 0.15s ease;
+}
+
+.calendarButton:hover {
+  opacity: 1;
+}
+
+.icon {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+}
+
+.iconPlaceholder {
+  font-size: 13px;
+}
+
+
+.hiddenPicker {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+  bottom: 0;
+  left: 0;
+}

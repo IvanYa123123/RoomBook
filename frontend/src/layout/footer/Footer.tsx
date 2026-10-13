@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import styles from './Footer.module.css'; 
 
 import logo from './../../assets/logo.png';
-import telegramIcon from './../../assets/telegram_grey.png';
-import vkIcon from './../../assets/vk_grey.png';
-import instagramIcon from './../../assets/inst_grey.png';
+import telegramIcon from './../../assets/socials/telegram_grey.png';
+import vkIcon from './../../assets/socials/vk_grey.png';
+import instagramIcon from './../../assets/socials/inst_grey.png';
 
 export const Footer: React.FC = () => {
   return (

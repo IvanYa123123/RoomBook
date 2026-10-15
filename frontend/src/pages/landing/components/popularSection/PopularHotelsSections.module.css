@@ -1,0 +1,111 @@
+.section {
+  width: 100%;
+  padding: 50px 0 70px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+/* Шапка секции */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+/* Кнопки со стрелками */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.arrowButton {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  color: #334155;
+  font-size: 22px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.arrowButton:hover:not(:disabled) {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0f172a;
+  transform: scale(1.05);
+}
+
+.arrowButton:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.arrowButton:disabled,
+.disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  border-color: #e2e8f0;
+}
+
+/* Окно слайдера (скрывает невидимые карточки) */
+.sliderViewport {
+  width: 100%;
+  overflow: hidden;
+  padding: 8px 0 16px; /* Запас под внешние тени карточек */
+}
+
+/* Трек карточек с плавной CSS-анимацией */
+.sliderTrack {
+  display: flex;
+  gap: 24px;
+  transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform;
+}
+
+/* 3 карточки на десктопе */
+.cardSlide {
+  flex: 0 0 calc((100% - 48px) / 3);
+  box-sizing: border-box;
+}
+
+/* 2 карточки на планшете */
+@media (max-width: 960px) {
+  .cardSlide {
+    flex: 0 0 calc((100% - 24px) / 2);
+  }
+}
+
+/* 1 карточка на мобильном */
+@media (max-width: 640px) {
+  .title {
+    font-size: 22px;
+  }
+
+  .cardSlide {
+    flex: 0 0 100%;
+  }
+}

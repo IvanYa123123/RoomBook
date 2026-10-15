@@ -1,6 +1,6 @@
 import {Routes, Route, Navigate} from 'react-router-dom';
 
-import Layout from "../layout/Layout"
+import Layout from "./../components/layout/Layout"
 import LandingPage from '../pages/landing/LandingPage';
 
 function AppRoutes() {

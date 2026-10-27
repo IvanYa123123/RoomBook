@@ -99,9 +99,13 @@
   font-size: 13px;
 }
 
-.pinIcon {
-  font-size: 13px;
+.pinImg {
+  width: 13px;
+  height: 13px;
+  object-fit: contain;
   flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .addressText {

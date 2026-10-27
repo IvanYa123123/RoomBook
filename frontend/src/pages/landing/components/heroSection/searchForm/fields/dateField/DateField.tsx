@@ -4,21 +4,21 @@ import styles from './DateField.module.css';
 interface DateInputFieldProps {
   id: string;
   name: string;
-  value: string; // формат "ДД.ММ.ГГГГ"
+  value: string; //формат "ДД.ММ.ГГГГ"
   onChange: (value: string) => void;
   onBlur: () => void;
   calendarIcon?: string;
-  minDate?: string; // минимальная дата в формате "ДД.ММ.ГГГГ"
+  minDate?: string; //минимальная дата в формате "ДД.ММ.ГГГГ"
 }
 
-// Преобразование "ДД.ММ.ГГГГ" -> "ГГГГ-ММ-ДД" (для input type="date")
+//преобразование "ДД.ММ.ГГГГ" -> "ГГГГ-ММ-ДД" 
 const toIsoDate = (dateStr: string): string => {
   if (!/^\d{2}\.\d{2}\.\d{4}$/.test(dateStr)) return '';
   const [d, m, y] = dateStr.split('.');
   return `${y}-${m}-${d}`;
 };
 
-// Преобразование "ГГГГ-ММ-ДД" -> "ДД.ММ.ГГГГ"
+//преобразование "ГГГГ-ММ-ДД" -> "ДД.ММ.ГГГГ"
 const fromIsoDate = (isoStr: string): string => {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(isoStr)) return '';
   const [y, m, d] = isoStr.split('-');
@@ -36,17 +36,16 @@ export const DateField: React.FC<DateInputFieldProps> = ({
 }) => {
   const hiddenPickerRef = useRef<HTMLInputElement>(null);
 
-  // Обработка ручного ввода: цифры и точки с автоформатированием
+  //обработка ручного ввода: цифры и точки с автоформатированием
   const handleTextInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = e.target.value;
 
-    // Если удаляют символ
     if (rawValue.length < value.length) {
       onChange(rawValue);
       return;
     }
 
-    // Оставляем только цифры, максимум 8
+    //оставляем только цифры, максимум 8
     const digits = rawValue.replace(/\D/g, '').slice(0, 8);
     let formatted = digits;
 
@@ -59,14 +58,14 @@ export const DateField: React.FC<DateInputFieldProps> = ({
     onChange(formatted);
   };
 
-  // Выбор даты из всплывающего календаря
+  //выбор даты из всплывающего календаря
   const handlePickerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value) {
       onChange(fromIsoDate(e.target.value));
     }
   };
 
-  // Открытие календаря
+  //открытие календаря
   const openCalendar = () => {
     try {
       hiddenPickerRef.current?.showPicker();
@@ -77,7 +76,7 @@ export const DateField: React.FC<DateInputFieldProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      {/* 1. Поле для ручного ввода текста */}
+      {/* поле для ручного ввода текста */}
       <input
         type="text"
         id={id}
@@ -90,7 +89,7 @@ export const DateField: React.FC<DateInputFieldProps> = ({
         className={styles.textInput}
       />
 
-      {/* 2. Кнопка с иконкой для вызова календарика */}
+      {/* кнопка с иконкой для вызова календарика */}
       <button
         type="button"
         tabIndex={-1}
@@ -105,7 +104,6 @@ export const DateField: React.FC<DateInputFieldProps> = ({
         )}
       </button>
 
-      {/* 3. Скрытый нативный input date для работы всплывающего окна */}
       <input
         ref={hiddenPickerRef}
         type="date"

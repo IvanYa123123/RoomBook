@@ -2,9 +2,7 @@ import React from 'react';
 import { Hotel } from '../../data/hotels_data';
 import styles from './HotelCard.module.css';
 
-// === ИМПОРТ ИКОНОК (ЕСЛИ ЕСТЬ ФАЙЛЫ) ===
-// import pinIcon from '../../assets/icons/pin.png';
-// import starIcon from '../../assets/icons/star.png';
+import pinIcon from '../../assets/icons/map-marker.png';
 
 interface HotelCardProps {
   hotel: Hotel;
@@ -36,7 +34,6 @@ export const HotelCard: React.FC<HotelCardProps> = ({
         <div className={styles.ratingBadge}>
           {/* Звездочка (SVG или картинка) */}
           <span className={styles.starIcon}>★</span>
-          {/* Если есть star.png: <img src={starIcon} alt="" className={styles.starImg} /> */}
           <span className={styles.ratingScore}>{hotel.rating.toFixed(1)}</span>
           <span className={styles.reviewsCount}>({hotel.reviewsCount} отзыва)</span>
         </div>
@@ -51,8 +48,7 @@ export const HotelCard: React.FC<HotelCardProps> = ({
         {/* Адрес с гео-меткой */}
         <div className={styles.addressRow}>
           {/* Гео-метка */}
-          <span className={styles.pinIcon}>📍</span>
-          {/* Если есть pin.png: <img src={pinIcon} alt="" className={styles.pinImg} /> */}
+          <img src={pinIcon} alt="" className={styles.pinImg} />
           <span className={styles.addressText}>{hotel.address}</span>
         </div>
 

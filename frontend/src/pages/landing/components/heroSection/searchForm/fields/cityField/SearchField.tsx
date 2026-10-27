@@ -24,7 +24,7 @@ export const SearchField: React.FC<SearchFieldProps> = ({
 
   return (
     <div className={`${styles.fieldWrapper} ${className}`}>
-      {/* Метка с иконкой */}
+
       <div className={styles.labelRow}>
         {labelIcon && (
           <img src={labelIcon} alt={labelIconAlt} className={styles.labelIcon} />
@@ -32,12 +32,10 @@ export const SearchField: React.FC<SearchFieldProps> = ({
         <span className={styles.label}>{label}</span>
       </div>
 
-      {/* Обертка поля: слушает активность вложенного инпута через :focus-within */}
       <div className={`${styles.inputContainer} ${isInvalid ? styles.hasError : ''}`}>
         {children}
       </div>
 
-      {/* Текст ошибки */}
       {isInvalid && (
         <span className={styles.errorMessage}>{error}</span>
       )}

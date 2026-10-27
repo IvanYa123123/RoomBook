@@ -22,7 +22,7 @@ interface SearchFormProps {
   onSearch?: (values: SearchFormValues) => void;
 }
 
-// Проверка реального существования календарной даты
+//валидация календарной даты
 const isValidCalendarDate = (dateStr?: string): boolean => {
   if (!dateStr || !/^\d{2}\.\d{2}\.\d{4}$/.test(dateStr)) return false;
   const [d, m, y] = dateStr.split('.').map(Number);
@@ -41,7 +41,7 @@ const parseDate = (dateStr: string): Date => {
   return new Date(y, m - 1, d);
 };
 
-// Схема валидации
+//схема валидации формы
 const validationSchema = Yup.object({
   destination: Yup.string()
     .trim()
@@ -80,12 +80,11 @@ export const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
 
   return (
     <form className={styles.form} onSubmit={formik.handleSubmit} noValidate>
-      {/* 1. Иконка локации слева */}
+
       <div className={styles.locationBadge}>
         <img src={locationIcon} alt="Локация" className={styles.badgeIcon} />
       </div>
 
-      {/* 2. Направление */}
       <SearchField
         label="Куда вы едете?"
         className={styles.destinationField}
@@ -104,7 +103,6 @@ export const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
 
       <div className={styles.divider} aria-hidden="true" />
 
-      {/* 3. Заезд (ручной ввод + календарь) */}
       <SearchField
         label="Заезд"
         labelIcon={calendarIcon}
@@ -122,7 +120,8 @@ export const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
         />
       </SearchField>
 
-      {/* 4. Выезд (ручной ввод + календарь) */}
+      <div className={styles.divider} aria-hidden="true" />
+
       <SearchField
         label="Выезд"
         labelIcon={calendarIcon}
@@ -143,7 +142,6 @@ export const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
 
       <div className={styles.divider} aria-hidden="true" />
 
-      {/* 5. Гости */}
       <SearchField
         label="Гости"
         labelIcon={userIcon}
@@ -164,7 +162,6 @@ export const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
         />
       </SearchField>
 
-      {/* 6. Кнопка "Найти" */}
       <button type="submit" className={styles.searchButton}>
         <img src={searchIcon} alt="" className={styles.searchIcon} />
         <span>Найти</span>

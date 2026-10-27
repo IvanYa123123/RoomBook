@@ -61,7 +61,8 @@
 /* Кнопка "Найти" */
 .searchButton {
   align-self: stretch; 
-  height: auto;       
+  height: auto;   
+  min-height: 40px;    
   background-color: #008968;
   color: #ffffff;
   border: none;

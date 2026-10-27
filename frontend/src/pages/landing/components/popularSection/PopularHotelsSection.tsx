@@ -7,7 +7,7 @@ export const PopularHotelsSection: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [visibleCards, setVisibleCards] = useState(3);
 
-  // Определяем, сколько карточек помещается на экран (3, 2 или 1)
+  //определяем, сколько карточек помещается на экран (3, 2 или 1)
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
@@ -25,7 +25,6 @@ export const PopularHotelsSection: React.FC = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Максимальный индекс смещения, чтобы не листать в пустоту
   const maxIndex = Math.max(0, hotelsData.length - visibleCards);
 
   // Корректируем индекс при смене разрешения экрана
@@ -46,14 +45,14 @@ export const PopularHotelsSection: React.FC = () => {
   const isPrevDisabled = currentIndex === 0;
   const isNextDisabled = currentIndex >= maxIndex;
 
-  // Расчет смещения ленты с учетом карточки и зазора gap (24px)
+  //расчет смещения ленты 
   const gap = 24;
   const slideOffset = `calc(-1 * ${currentIndex} * ((100% - ${(visibleCards - 1) * gap}px) / ${visibleCards} + ${gap}px))`;
 
   return (
     <section className={styles.section}>
       <div className={styles.container}>
-        {/* Шапка со стрелками */}
+
         <div className={styles.header}>
           <h2 className={styles.title}>Популярные отели</h2>
 
@@ -79,9 +78,8 @@ export const PopularHotelsSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Область просмотра (скрывает карточки за границами) */}
+        {/* Область просмотра */}
         <div className={styles.sliderViewport}>
-          {/* Движущаяся лента с плавной анимацией transform */}
           <div
             className={styles.sliderTrack}
             style={{ transform: `translateX(${slideOffset})` }}

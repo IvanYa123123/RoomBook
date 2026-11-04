@@ -1,14 +1,17 @@
-# FastBooking (API)
+
+# RoomBook (API)
 
 Rails 7.1 (API-only) + PostgreSQL.
 
 ## 🚀 Запуск
 
-```bash
+```
 bundle install
 bin/rails db:create db:migrate db:seed
 bin/rails server
 ```
+
+Сервер поднимается на `http://localhost:3000`.
 
 ## 🧪 Тесты
 
@@ -22,23 +25,24 @@ bin/rails test
 
 ### Публичные эндпоинты
 
-- `POST /api/v1/signup` (принимает `firstName`, `passwordConfirmation`)
-- `POST /api/v1/login` → `{ token, user: { id, email, firstName, lastName, fullName, role } }`
+- `POST /api/v1/signup` — принимает `firstName`, `passwordConfirmation`
+- `POST /api/v1/login` — возвращает `{ token, user: { id, email, firstName, lastName, fullName, role } }`
 - `GET /api/v1/hotels`
 
-- Query params: `city` (или `destination`), `check_in` (или `checkIn`), `check_out` (или `checkOut`), `guests` (или `guestsCount`), `min_price`, `max_price`, `page`.
-- Фильтры `min_price/max_price` работают по минимальной цене номера отеля (`pricePerNight`).
-- Ответ: `{ hotels: [{ id, name, city, address, description, imageUrl, photos, rating, reviewsCount, pricePerNight }], meta: { currentPage, totalPages, totalCount } }`
-- `GET /api/v1/hotels/:id` → `{ ...hotel, rooms: [...], reviews: [...] }`
+Query params: `city` (или `destination`), `check_in` (или `checkIn`),
+`check_out` (или `checkOut`), `guests` (или `guestsCount`),
+`min_price`, `max_price`, `page`.
+Фильтры `min_price`/`max_price` работают по минимальной цене номера отеля
+(`pricePerNight`).
+Ответ: `{ hotels: [...], meta: { currentPage, totalPages, totalCount } }`
+- `GET /api/v1/hotels/:id` — `{ ...hotel, rooms: [...], reviews: [...] }`
 
 ### Гость (Bearer Token)
 
-- `POST /api/v1/hotels/:hotel_id/bookings`
-
-- Body: `{ roomId, checkIn, checkOut, guestsCount }` (или snake_case).
+- `POST /api/v1/hotels/:hotel_id/bookings` — тело `{ roomId, checkIn, checkOut, guestsCount }`
 - `GET /api/v1/guest/bookings?status=upcoming|completed|cancelled|pending`
 - `PATCH /api/v1/guest/bookings/:id/cancel`
-- `POST /api/v1/hotels/:hotel_id/reviews` (Body: `{ rating, body }`)
+- `POST /api/v1/hotels/:hotel_id/reviews` — тело `{ rating, body }`
 
 ### Владелец (Bearer Token)
 
@@ -55,9 +59,17 @@ bin/rails test
 
 ### Logout
 
-`DELETE /api/v1/logout` — идемпотентный (можно вызывать без токена, вернет 204).
+`DELETE /api/v1/logout` — идемпотентный (можно вызывать без токена, вернёт 204).
 
 ## ⚙️ CORS
 
 Разрешены порты `localhost:3000` (CRA) и `localhost:5173` (Vite).
+
+## 🔐 Credentials
+
+`config/credentials.yml.enc` в репозиторий не включён.
+
+- В dev `secret_key_base` хранится в `tmp/local_secret.txt` (создаётся автоматически).
+- Для production задайте `RAILS_MASTER_KEY` или пересоздайте credentials:
+`bin/rails credentials:edit`.
 

@@ -1,0 +1,26 @@
+# Системные и временные файлы
+.DS_Store
+*.log
+tmp/*
+log/*
+.bundle
+
+# Базы данных (SQLite)
+db/*.sqlite3
+db/*.sqlite3-journal
+
+# Секреты и настройки
+config/master.key
+.env
+.env.local
+frontend/.env
+
+# Зависимости и сборки
+node_modules
+frontend/node_modules
+frontend/dist
+public/assets
+
+# Редакторы
+.vscode
+.idea

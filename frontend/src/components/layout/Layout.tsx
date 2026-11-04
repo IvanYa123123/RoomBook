@@ -6,7 +6,7 @@ function Layout() {
     const nav = useNavigate();
     return (
         <>
-            <Header onRegisterClick={() => nav('/reg')}/>
+            <Header onRegisterClick={() => nav('/reg')} onLoginClick={() => nav('/login')}/>
             <Outlet/>
             <Footer />
         </>

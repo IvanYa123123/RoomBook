@@ -5,16 +5,16 @@ module Api
         user = User.new(
           email: params[:email],
           password: params[:password],
-          password_confirmation: params[:password_confirmation].presence || params[:password],
-          first_name: params[:first_name] || params[:firstName],
-          last_name: params[:last_name] || params[:lastName],
-          role: (params[:role].presence_in(%w[guest host]) || "guest")
+          password_confirmation: param_any(:password_confirmation, :passwordConfirmation) || params[:password],
+          first_name: param_any(:first_name, :firstName),
+          last_name: param_any(:last_name, :lastName),
+          role: param_any(:role).presence_in(%w[guest host]) || "guest"
         )
 
         if user.save
           render json: { token: user.api_token, user: UserSerializer.call(user) }, status: :created
         else
-          render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
+          render_errors(user)
         end
       end
 

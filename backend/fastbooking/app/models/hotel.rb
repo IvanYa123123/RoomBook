@@ -19,10 +19,21 @@ class Hotel < ApplicationRecord
   }
 
   scope :with_price_between, lambda { |min_price, max_price|
-    scope = all
-    scope = scope.where(id: Room.where("price_per_night >= ?", min_price).select(:hotel_id)) if min_price.present?
-    scope = scope.where(id: Room.where("price_per_night <= ?", max_price).select(:hotel_id)) if max_price.present?
-    scope
+    next all if min_price.blank? && max_price.blank?
+
+    conds  = []
+    values = []
+    if min_price.present?
+      conds  << "MIN(price_per_night) >= ?"
+      values << min_price
+    end
+    if max_price.present?
+      conds  << "MIN(price_per_night) <= ?"
+      values << max_price
+    end
+
+    ids = Room.group(:hotel_id).having(conds.join(" AND "), *values).select(:hotel_id)
+    where(id: ids)
   }
 
   scope :available_between, lambda { |check_in, check_out|

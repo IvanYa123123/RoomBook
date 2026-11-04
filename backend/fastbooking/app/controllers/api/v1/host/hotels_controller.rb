@@ -8,7 +8,7 @@ module Api
         def index
           hotels = current_user.hotels
                                .with_attached_photos
-                               .includes(:rooms, photos_attachments: :blob)
+                               .includes(:rooms, :reviews, photos_attachments: :blob)
                                .order(created_at: :desc)
           
           render json: { hotels: hotels.map { |h| HotelSerializer.card(h, request) } }

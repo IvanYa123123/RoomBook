@@ -6,6 +6,9 @@ module Api
       def create
         hotel = Hotel.find(params[:hotel_id])
         room_id = param_any(:room_id, :roomId)
+        
+        return render(json: { error: "Не указан номер" }, status: :bad_request) if room_id.blank?
+        
         room = hotel.rooms.find(room_id)
 
         booking = current_user.bookings.new(

@@ -9,7 +9,7 @@ module Api
           
           scope = Booking.joins(room: :hotel)
                          .where(rooms: { hotel_id: current_user.hotels.select(:id) })
-                         .includes(:user, room: { photos_attachments: :blob, hotel: true })
+                         .includes(:user, room: [{ photos_attachments: :blob }, :hotel])
                          .order(created_at: :desc)
           
           scope = scope.where(rooms: { hotel_id: hotel_id }) if hotel_id.present?

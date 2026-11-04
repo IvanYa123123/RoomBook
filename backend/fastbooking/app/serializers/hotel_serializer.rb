@@ -16,8 +16,8 @@ class HotelSerializer < BaseSerializer
 
   def self.detail(hotel, request)
     card(hotel, request).merge(
-      rooms: hotel.rooms.order(:price_per_night).map { |room| RoomSerializer.call(room, request) },
-      reviews: hotel.reviews.order(created_at: :desc).map { |review| ReviewSerializer.call(review) }
+      rooms: hotel.rooms.sort_by(&:price_per_night).map { |r| RoomSerializer.call(r, request) },
+      reviews: hotel.reviews.sort_by { |rv| -rv.created_at.to_i }.map { |rv| ReviewSerializer.call(rv) }
     )
   end
 

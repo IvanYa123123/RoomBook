@@ -8,7 +8,7 @@ module Api
         booking = eligible_booking(hotel)
 
         if booking.nil?
-          return render json: { error: "Отзыв можно оставить только после завершённого проживания" },
+          return render json: { errors: ["Отзыв можно оставить только после завершённого проживания"] },
                         status: :unprocessable_entity
         end
 

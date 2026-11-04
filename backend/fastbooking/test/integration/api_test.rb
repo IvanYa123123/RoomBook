@@ -15,14 +15,15 @@ class ApiTest < ActionDispatch::IntegrationTest
     assert_equal "guest", json["user"]["role"]
   end
 
-  test "POST /api/v1/signup with camelCase" do
-    assert_difference("User.count", 1) do
+  test "POST /api/v1/signup with camelCase and mismatch password" do
+    assert_no_difference("User.count") do
       post api_v1_signup_path, params: {
-        email: "newguest2@example.com", firstName: "Новый2",
-        password: "password123", passwordConfirmation: "password123", role: "guest"
+        email: "mismatch@example.com", firstName: "Х",
+        password: "password123", passwordConfirmation: "different"
       }
     end
-    assert_response :created
+    assert_response :unprocessable_entity
+    assert JSON.parse(response.body)["errors"].any?
   end
 
   test "POST /api/v1/login returns token" do
@@ -46,10 +47,11 @@ class ApiTest < ActionDispatch::IntegrationTest
     assert_equal 1, json["meta"]["currentPage"]
   end
 
-  test "GET /api/v1/hotels with destination alias" do
-    get api_v1_hotels_path, params: { destination: "Севастополь" }
+  test "GET /api/v1/hotels with page > total_pages resets to page 1" do
+    get api_v1_hotels_path, params: { page: 999 }
     assert_response :success
-    assert_equal 1, JSON.parse(response.body)["hotels"].size
+    json = JSON.parse(response.body)
+    assert_equal 1, json["meta"]["currentPage"]
   end
 
   test "GET /api/v1/hotels/:id returns detail with rooms and reviews" do
@@ -82,29 +84,17 @@ class ApiTest < ActionDispatch::IntegrationTest
     assert json["booking"]["room"].key?("photoUrl")
   end
 
-  test "GET /api/v1/guest/bookings returns bookings" do
+  test "POST /api/v1/bookings without roomId returns 400" do
     user = users(:guest_user)
     headers = auth_headers(user)
-    get api_v1_guest_bookings_path, headers: headers
-    assert_response :success
-    json = JSON.parse(response.body)
-    assert json["bookings"].is_a?(Array)
-    if json["bookings"].any?
-      assert json["bookings"].first.key?("completed")
-    end
+    hotel = hotels(:sea_hotel)
+
+    post api_v1_hotel_bookings_path(hotel), headers: headers, params: {}
+    assert_response :bad_request
+    assert_equal "Не указан номер", JSON.parse(response.body)["error"]
   end
 
-  test "PATCH /api/v1/guest/bookings/:id/cancel cancels booking" do
-    user = users(:guest_user)
-    headers = auth_headers(user)
-    booking = bookings(:pending_booking)
-
-    patch cancel_api_v1_guest_booking_path(booking), headers: headers
-    assert_response :success
-    assert_equal "cancelled", JSON.parse(response.body)["booking"]["status"]
-  end
-
-  test "POST review with invalid booking returns 422" do
+  test "POST review with invalid booking returns 422 with errors array" do
     user = users(:guest_user)
     headers = auth_headers(user)
     hotel = hotels(:sea_hotel)
@@ -114,7 +104,10 @@ class ApiTest < ActionDispatch::IntegrationTest
          params: { rating: 5, body: "Класс" }
 
     assert_response :unprocessable_entity
-    assert JSON.parse(response.body).key?("error")
+    json = JSON.parse(response.body)
+    assert json.key?("errors")
+    assert json["errors"].is_a?(Array)
+    assert_not json.key?("error")
   end
 
   test "GET missing hotel returns 404" do

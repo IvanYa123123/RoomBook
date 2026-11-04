@@ -16,6 +16,9 @@ module Api
                      .available_between(check_in, check_out)
 
         hotels = scope.page(params[:page]).per(9)
+        if hotels.total_pages.positive? && hotels.current_page > hotels.total_pages
+          hotels = hotels.page(1)
+        end
 
         render json: {
           hotels: hotels.map { |h| HotelSerializer.card(h, request) },

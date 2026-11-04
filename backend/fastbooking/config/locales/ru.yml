@@ -1,0 +1,66 @@
+ru:
+  activerecord:
+    models:
+      user: Пользователь
+      hotel: Отель
+      room: Номер
+      booking: Бронирование
+      review: Отзыв
+    attributes:
+      user:
+        email: E-mail
+        first_name: Имя
+        last_name: Фамилия
+        password: Пароль
+        password_confirmation: Подтверждение пароля
+        role: Роль
+      hotel:
+        name: Название
+        city: Город
+        address: Адрес
+        description: Описание
+        photos: Фотографии
+      room:
+        name: Название категории
+        capacity: Вместимость
+        price_per_night: Цена за ночь
+        description: Описание
+        amenities: Удобства
+        photos: Фотографии
+      booking:
+        check_in: Дата заезда
+        check_out: Дата выезда
+        guests_count: Количество гостей
+        total_price: Итоговая стоимость
+      review:
+        rating: Оценка
+        body: Комментарий
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      blank: не может быть пустым
+      taken: уже занято
+      invalid: имеет неверный формат
+      required: обязательно для заполнения
+      inclusion: имеет непредусмотренное значение
+      greater_than: должно быть больше %{count}
+      not_a_number: не является числом
+      not_an_integer: должно быть целым числом
+      record_invalid: "Возникли ошибки: %{errors}"
+      restrict_dependent_destroy:
+        has_one: "Невозможно удалить, так как существует зависимый %{record}"
+        has_many: "Невозможно удалить, так как существуют зависимые %{record}"
+  date:
+    formats:
+      default: "%d.%m.%Y"
+      short: "%d %b"
+  time:
+    formats:
+      default: "%d.%m.%Y %H:%M"
+  views:
+    pagination:
+      first: "&laquo; Первая"
+      last: "Последняя &raquo;"
+      previous: "&lsaquo; Назад"
+      next: "Вперёд &rsaquo;"
+      truncate: "&hellip;"

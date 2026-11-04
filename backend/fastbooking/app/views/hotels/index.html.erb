@@ -1,0 +1,55 @@
+<div class="row-between" style="margin-bottom:20px;">
+  <div>
+    <h1 style="margin:0 0 4px; font-size:24px;">Каталог отелей</h1>
+    <p class="muted" style="margin:0;">Найдено: <%= @hotels.total_count %></p>
+  </div>
+  <%= link_to "← Вернуться на главную", root_path, class: "btn btn--ghost btn--small" %>
+</div>
+
+<%= form_with url: hotels_path, method: :get, class: "toolbar", local: true do %>
+  <%= hidden_field_tag :city, @city if @city.present? %>
+  <%= hidden_field_tag :check_in, @check_in if @check_in %>
+  <%= hidden_field_tag :check_out, @check_out if @check_out %>
+  <%= hidden_field_tag :guests, @guests if @guests %>
+
+  <div class="toolbar__group">
+    <div class="field">
+      <label for="min_price">Цена от, ₽</label>
+      <%= number_field_tag :min_price, @min_price, min: 0, step: 100, placeholder: "0" %>
+    </div>
+    <div class="field">
+      <label for="max_price">Цена до, ₽</label>
+      <%= number_field_tag :max_price, @max_price, min: 0, step: 100, placeholder: "100000" %>
+    </div>
+    <%= submit_tag "Применить", class: "btn btn--primary" %>
+    <%= link_to "Сбросить", hotels_path, class: "btn btn--ghost" %>
+  </div>
+
+  <div class="toolbar__group">
+    <div class="field">
+      <label for="city">Город</label>
+      <%= text_field_tag :city, @city, placeholder: "Все города" %>
+    </div>
+    <%= submit_tag "Найти", class: "btn btn--ghost" %>
+  </div>
+<% end %>
+
+<% if @city.present? || @check_in || @check_out || @guests || @min_price || @max_price %>
+  <div class="chips">
+    <% if @city.present? %>
+      <span class="chip">Город: <%= @city %></span>
+    <% end %>
+    <% if @check_in && @check_out %>
+      <span class="chip"><%= l(@check_in) %> — <%= l(@check_out) %></span>
+    <% end %>
+    <% if @guests %>
+      <span class="chip">Гостей: <%= @guests %></span>
+    <% end %>
+    <% if @min_price %>
+      <span class="chip">от <%= money(@min_price) %></span>
+    <% end %>
+    <% if @max_price %>
+      <span class="chip">до <%= money(@max_price) %></span>
+    <% end %>
+    <%= link_to "Сбросить параметры", hotels_path, class: "chip" %>
+ 

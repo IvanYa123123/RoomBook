@@ -10,6 +10,8 @@ class BookingSerializer < BaseSerializer
       guestsCount: booking.guests_count,
       totalPrice: booking.total_price.to_f,
       createdAt: booking.created_at.iso8601,
+      completed: booking.completed?,
+      reviewable: booking.reviewable?,
       room: {
         id: booking.room.id,
         name: booking.room.name,

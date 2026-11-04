@@ -6,7 +6,7 @@ module Api
 
         def index
           scope = current_user.bookings
-                              .includes(room: { hotel: { photos_attachments: :blob } })
+                              .includes(room: { photos_attachments: :blob, hotel: { photos_attachments: :blob } })
                               .order(check_in: :desc)
 
           scope = case params[:status]
@@ -17,7 +17,7 @@ module Api
                   else scope
                   end
 
-          render json: { bookings: scope.map { |b| serialize(b) } }
+          render json: { bookings: scope.map { |b| BookingSerializer.call(b, request) } }
         end
 
         def cancel
@@ -25,47 +25,10 @@ module Api
 
           if booking.pending?
             booking.update(status: :cancelled)
-            render json: { booking: serialize(booking) }
+            render json: { booking: BookingSerializer.call(booking, request) }
           else
             render json: { error: "Отменить можно только заявку в ожидании" },
                    status: :unprocessable_entity
-          end
-        end
-
-        private
-
-        def serialize(booking)
-          {
-            id: booking.id,
-            status: booking.status,
-            status_label: status_label(booking),
-            check_in: booking.check_in,
-            check_out: booking.check_out,
-            nights: booking.nights,
-            guests_count: booking.guests_count,
-            total_price: booking.total_price.to_f,
-            completed: booking.completed?,
-            reviewable: booking.reviewable?,
-            created_at: booking.created_at.iso8601,
-            room: {
-              id: booking.room.id,
-              name: booking.room.name,
-              photo: photo_url(booking.room)
-            },
-            hotel: {
-              id: booking.room.hotel.id,
-              name: booking.room.hotel.name,
-              city: booking.room.hotel.city,
-              address: booking.room.hotel.address
-            }
-          }
-        end
-
-        def status_label(booking)
-          if booking.pending? then "Ожидает подтверждения"
-          elsif booking.cancelled? then "Отклонено"
-          elsif booking.completed? then "Завершено"
-          else "Подтверждено"
           end
         end
       end

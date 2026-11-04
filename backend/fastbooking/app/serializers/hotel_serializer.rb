@@ -8,9 +8,9 @@ class HotelSerializer < BaseSerializer
       description: hotel.description,
       imageUrl: photo_url(hotel.photos.first, request),
       photos: photos(hotel, request),
-      rating: hotel.average_rating,
+      rating: rating_of(hotel),
       reviewsCount: hotel.reviews.size,
-      pricePerNight: hotel.min_price&.to_f
+      pricePerNight: min_price_of(hotel)&.to_f
     }
   end
 
@@ -19,5 +19,21 @@ class HotelSerializer < BaseSerializer
       rooms: hotel.rooms.order(:price_per_night).map { |room| RoomSerializer.call(room, request) },
       reviews: hotel.reviews.order(created_at: :desc).map { |review| ReviewSerializer.call(review) }
     )
+  end
+
+  def self.min_price_of(hotel)
+    if hotel.rooms.loaded?
+      hotel.rooms.map(&:price_per_night).compact.min
+    else
+      hotel.min_price
+    end
+  end
+
+  def self.rating_of(hotel)
+    if hotel.reviews.loaded?
+      hotel.reviews.map(&:rating).then { |a| a.empty? ? nil : (a.sum.to_f / a.size).round(1) }
+    else
+      hotel.average_rating
+    end
   end
 end

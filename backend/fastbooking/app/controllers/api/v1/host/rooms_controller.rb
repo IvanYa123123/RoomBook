@@ -8,7 +8,7 @@ module Api
 
         def index
           rooms = @hotel.rooms.with_attached_photos.order(:price_per_night)
-          render json: { rooms: rooms.map { |r| serialize(r) } }
+          render json: { rooms: rooms.map { |r| RoomSerializer.call(r, request) } }
         end
 
         def create
@@ -16,7 +16,7 @@ module Api
           room.photos.attach(params.dig(:room, :photos)) if params.dig(:room, :photos).present?
 
           if room.save
-            render json: { room: serialize(room) }, status: :created
+            render json: { room: RoomSerializer.call(room, request) }, status: :created
           else
             render_errors(room)
           end
@@ -27,7 +27,7 @@ module Api
           @room.photos.attach(params.dig(:room, :photos)) if params.dig(:room, :photos).present?
 
           if @room.update(room_params.except(:remove_photo_ids, :photos))
-            render json: { room: serialize(@room) }
+            render json: { room: RoomSerializer.call(@room, request) }
           else
             render_errors(@room)
           end
@@ -57,25 +57,12 @@ module Api
         end
 
         def purge_photos
-          ids = Array(params.dig(:room, :remove_photo_ids)).reject(&:blank?)
+          ids = Array(params.dig(:room, :remove_photo_ids) || params.dig(:room, :removePhotoIds)).reject(&:blank?)
           @room.photos.where(id: ids).each(&:purge) if ids.any?
         end
 
         def room_params
-          params.require(:room).permit(:name, :capacity, :price_per_night, :description, :amenities,
-                                       photos: [], remove_photo_ids: [])
-        end
-
-        def serialize(room)
-          {
-            id: room.id,
-            name: room.name,
-            capacity: room.capacity,
-            price_per_night: room.price_per_night.to_f,
-            description: room.description,
-            amenities: room.amenities_list,
-            photos: photo_urls(room)
-          }
+          params.require(:room).permit(:name, :capacity, :price_per_night, :description, :amenities, photos: [], remove_photo_ids: [])
         end
       end
     end

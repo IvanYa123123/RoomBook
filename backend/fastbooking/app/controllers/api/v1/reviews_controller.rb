@@ -20,15 +20,7 @@ module Api
         )
 
         if review.save
-          render json: {
-            review: {
-              id: review.id,
-              rating: review.rating,
-              body: review.body,
-              author_name: current_user.full_name,
-              created_at: review.created_at.iso8601
-            }
-          }, status: :created
+          render json: { review: ReviewSerializer.call(review) }, status: :created
         else
           render_errors(review)
         end

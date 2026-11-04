@@ -5,34 +5,21 @@ module Api
 
       def create
         hotel = Hotel.find(params[:hotel_id])
-        room = hotel.rooms.find(params[:room_id])
+        room_id = param_any(:room_id, :roomId)
+        room = hotel.rooms.find(room_id)
 
         booking = current_user.bookings.new(
           room: room,
-          check_in: params[:check_in],
-          check_out: params[:check_out],
-          guests_count: params[:guests_count]
+          check_in: parse_date(param_any(:check_in, :checkIn)),
+          check_out: parse_date(param_any(:check_out, :checkOut)),
+          guests_count: param_any(:guests_count, :guestsCount)
         )
 
         if booking.save
-          render json: { booking: serialize(booking) }, status: :created
+          render json: { booking: BookingSerializer.call(booking, request) }, status: :created
         else
           render_errors(booking)
         end
-      end
-
-      private
-
-      def serialize(booking)
-        {
-          id: booking.id,
-          status: booking.status,
-          check_in: booking.check_in,
-          check_out: booking.check_out,
-          guests_count: booking.guests_count,
-          total_price: booking.total_price.to_f,
-          nights: booking.nights
-        }
       end
     end
   end

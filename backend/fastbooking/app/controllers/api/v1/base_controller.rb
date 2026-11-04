@@ -32,7 +32,29 @@ module Api
         nil
       end
 
-      # Обработчики ошибок
+      def render_errors(record)
+        render json: { errors: record.errors.full_messages }, status: :unprocessable_entity
+      end
+
+      def photo_urls(record)
+        return [] unless record.photos.attached?
+        record.photos.map do |p|
+          { id: p.id, url: Rails.application.routes.url_helpers.rails_blob_url(p, host: request.base_url) }
+        end
+      end
+
+      def photo_url(record)
+        photo_urls(record).first&.dig(:url)
+      end
+
+      def param_any(*keys)
+        keys.each do |k|
+          v = params[k]
+          return v if v.present?
+        end
+        nil
+      end
+
       def render_not_found(exception = nil)
         render json: { error: "Не найдено" }, status: :not_found
       end

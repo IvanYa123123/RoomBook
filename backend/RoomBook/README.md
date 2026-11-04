@@ -11,32 +11,50 @@ Rails 7.1 (API-only) + PostgreSQL.
 
 ## Запуск
 
+### 1. Сгенерировать системные файлы
+
+`setup.sh` / `setup.bat` создают `config.ru`, `.ruby-version`, `bin/rails`, `bin/rake` —
+без них `bin/rails ...` не заработает.
+
+Linux/macOS:
+
 ```
-# 1. Сгенерировать системные файлы (config.ru, bin/rails, bin/rake, .ruby-version)
 bash setup.sh
+```
 
-# 2. Установить зависимости
+Windows:
+
+```
+setup.bat
+```
+
+### 2. Установить зависимости
+
+```
 bundle install
+```
 
-# 3. Создать и подготовить БД
+### 3. Создать и подготовить БД
+
+```
 bin/rails db:create db:migrate db:seed
+```
 
-# 4. Запустить сервер
+Windows (если `bin/rails` не запускается напрямую):
+
+```
+bundle exec rails db:create db:migrate db:seed
+```
+
+### 4. Запустить сервер
+
+```
 bin/rails server
 ```
 
 Сервер поднимается на `http://localhost:3000`.
 
-### Windows
-
-Если `bin/rails` не запускается напрямую, выполните `setup.bat` вместо `setup.sh`, а затем используйте:
-
-```
-bundle exec rails db:create db:migrate db:seed
-bundle exec rails server
-```
-
-### Переменные окружения (PostgreSQL)
+## Переменные окружения (PostgreSQL)
 
 По умолчанию: `localhost:5432`, пользователь `postgres`, пароль `postgres`.
 Переопределяются через `PGHOST`, `PGPORT`, `PGUSER`, `PGPASSWORD`, `RAILS_MAX_THREADS`.
@@ -50,13 +68,12 @@ bin/rails test
 
 ## Демо-аккаунты (после `db:seed`)
 
-| Роль ↕▾ | E-mail ↕▾ | Пароль ↕▾ |
+| Роль | E-mail | Пароль |
 |---|---|---|
-| −Гость | guest@fastbooking.ru | password123 |
-| −Гость 2 | anna@fastbooking.ru | password123 |
-| −Владелец | host@fastbooking.ru | password123 |
-| −Владелец 2 | host2@fastbooking.ru | password123 |
-⚙
+| Гость | guest@fastbooking.ru | password123 |
+| Гость 2 | anna@fastbooking.ru | password123 |
+| Владелец | host@fastbooking.ru | password123 |
+| Владелец 2 | host2@fastbooking.ru | password123 |
 
 ## API Контракт (camelCase)
 
@@ -117,17 +134,4 @@ Body: `{ rating, body }`. Доступно только после заверш�
 
 Разрешены origin'ы `http://localhost:3000` (CRA) и `http://localhost:5173` (Vite).
 
-## Credentials
 
-`config/credentials.yml.enc` в репозиторий не включён.
-
-- В dev `secret_key_base` хранится в `tmp/local_secret.txt` (создаётся автоматически).
-- Для production задайте `RAILS_MASTER_KEY` или пересоздайте credentials:
-
-```
-bin/rails credentials:edit
-```
-
-```
-
-README готов — замени им текущий `backend/RoomBook/README.md` (в нём сейчас остался BDS-мусор с `setup.bat` в конце).

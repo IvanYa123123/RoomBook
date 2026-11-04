@@ -1,0 +1,73 @@
+.fieldWrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+  height: 48px;
+  padding: 0 48px 0 16px;
+  font-size: 15px;
+  color: #1a1a1a;
+  background-color: #ffffff;
+  border: 1px solid #E2E2E4;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.maskedInput {
+  font-family: caption, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: 0.1em;
+}
+
+.input:focus {
+  border-color: #04916e;
+}
+
+.inputError {
+  border-color: #e53935;
+}
+
+.inputError:focus {
+  border-color: #e53935;
+}
+
+.toggleButton {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  border-radius: 6px;
+  color: #E2E2E4;
+  transition: color 0.2s ease;
+}
+
+.toggleButton:hover {
+  color: #4a515a;
+}
+
+.toggleButton:focus-visible {
+  outline: 2px solid #04916e;
+  outline-offset: 2px;
+}
+
+.icon {
+  display: block;
+  user-select: none;
+  pointer-events: none;
+}

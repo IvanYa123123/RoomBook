@@ -5,46 +5,19 @@ require "rails/all"
 Bundler.require(*Rails.groups)
 
 module RoomBook
-class Application < Rails::Application
-config.load_defaults 7.1
+  class Application < Rails::Application
+    config.load_defaults 7.1
 
-config.i18n.default_locale = :ru
-config.i18n.available_locales = %i[ru en]
-config.i18n.fallbacks = [:en]
+    config.i18n.default_locale = :ru
+    config.i18n.available_locales = %i[ru en]
+    config.i18n.fallbacks = [:en]
 
-config.time_zone = "Moscow"
-config.active_record.default_timezone = :utc
+    config.time_zone = "Moscow"
+    config.active_record.default_timezone = :utc
 
-config.generators do |g|
-g.system_tests = nil
-g.test_framework :test_unit, fixture: true
+    config.generators do |g|
+      g.system_tests = nil
+      g.test_framework :test_unit, fixture: true
+    end
+  end
 end
-end
-end
-
-</BDS:create_file>
-
-<BDS:create_file fileName="backend/RoomBook/config/database.yml">```yaml
-default: &default
-  adapter: postgresql
-  encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: <%= ENV.fetch("PGHOST", "localhost") %>
-  port: <%= ENV.fetch("PGPORT", 5432) %>
-  username: <%= ENV.fetch("PGUSER", "postgres") %>
-  password: <%= ENV.fetch("PGPASSWORD", "postgres") %>
-
-development:
-  <<: *default
-  database: roombook_development
-
-test:
-  <<: *default
-  database: roombook_test
-
-production:
-  <<: *default
-  database: roombook_production
-  username: roombook
-  password: <%= ENV["ROOMBOOK_DATABASE_PASSWORD"] %>
-

@@ -1,6 +1,0 @@
-city_review:
-  user: guest_user
-  hotel: city_hotel
-  booking: completed_booking
-  rating: 5
-  body: Отличный отель

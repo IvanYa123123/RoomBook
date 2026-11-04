@@ -64,9 +64,9 @@ export const PasswordField: React.FC<PasswordFieldProps> = ({
         tabIndex={0}
       >
         {isVisible ? (
-          <IoEye className={styles.icon} size={22} />
+          (React.createElement(IoEye as any, { className: styles.icon, size: 22 }) as React.ReactElement)
         ) : (
-          <IoEyeOff className={styles.icon} size={22} />
+          (React.createElement(IoEyeOff as any, { className: styles.icon, size: 22 }) as React.ReactElement)
         )}
       </button>
     </div>

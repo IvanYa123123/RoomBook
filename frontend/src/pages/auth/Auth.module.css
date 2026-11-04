@@ -1,3 +1,50 @@
+.pageContainer {
+  min-height: calc(100vh - 80px - 100px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  background-color: #f6f8fb;
+  box-sizing: border-box;
+}
+
+.card {
+  width: 100%;
+  max-width: 440px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  padding: 40px 36px 36px;
+  box-sizing: border-box;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+  text-align: center;
+  margin-bottom: 28px;
+  letter-spacing: -0.01em;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+}
+
+.label {
+  font-size: 15px;
+  font-weight: 500;
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+
 .fieldWrapper {
   position: relative;
   width: 100%;
@@ -8,7 +55,7 @@
 .input {
   width: 100%;
   height: 48px;
-  padding: 0 48px 0 16px;
+  padding: 0 16px;
   font-size: 15px;
   color: #1a1a1a;
   background-color: #ffffff;
@@ -19,9 +66,8 @@
   box-sizing: border-box;
 }
 
-.maskedInput {
-  font-family: caption, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  letter-spacing: 0.1em;
+.input::placeholder {
+  color: #9ea5ad;
 }
 
 .input:focus {
@@ -34,6 +80,18 @@
 
 .inputError:focus {
   border-color: #e53935;
+}
+
+.errorMessage {
+  font-size: 12px;
+  color: #e53935;
+  margin-top: 5px;
+  padding-left: 2px;
+}
+
+.maskedInput {
+  font-family: caption, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: 0.1em;
 }
 
 .toggleButton {
@@ -70,4 +128,105 @@
   display: block;
   user-select: none;
   pointer-events: none;
+}
+
+/* Радио-кнопки выбора типа аккаунта */
+.radioGroup {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-top: 4px;
+}
+
+.radioLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  color: #1f2937;
+  cursor: pointer;
+  user-select: none;
+}
+
+.radioInput {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid #04916e;
+  border-radius: 50%;
+  outline: none;
+  margin: 0;
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+  background-color: #ffffff;
+  transition: border-color 0.2s ease;
+}
+
+.radioInput::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: transform 0.15s ease-in-out;
+  background-color: #04916e;
+}
+
+.radioInput:checked::before {
+  transform: scale(1);
+}
+
+.radioInput:focus-visible {
+  outline: 2px solid #04916e;
+  outline-offset: 2px;
+}
+
+/* Кнопка отправки */
+.submitBtn {
+  width: 100%;
+  height: 48px;
+  background-color: #04916e;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.2s ease;
+}
+
+.submitBtn:hover {
+  background-color: #037a5c;
+}
+
+.submitBtn:active {
+  background-color: #02664d;
+}
+
+.submitBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Ссылка внизу */
+.footerText {
+  text-align: center;
+  font-size: 14px;
+  color: #1f2937;
+  margin-top: 20px;
+}
+
+.link {
+  color: #04916e;
+  text-decoration: underline;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 4px;
+}
+
+.link:hover {
+  color: #037a5c;
 }

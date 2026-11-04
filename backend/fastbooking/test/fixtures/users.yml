@@ -1,0 +1,20 @@
+guest_user:
+  email: guest@example.com
+  password_digest: <%= BCrypt::Password.create("password123") %>
+  first_name: Иван
+  last_name: Петров
+  role: 0
+
+host_user:
+  email: host@example.com
+  password_digest: <%= BCrypt::Password.create("password123") %>
+  first_name: Анна
+  last_name: Сидорова
+  role: 1
+
+other_host:
+  email: other@example.com
+  password_digest: <%= BCrypt::Password.create("password123") %>
+  first_name: Олег
+  last_name: null
+  role: 1

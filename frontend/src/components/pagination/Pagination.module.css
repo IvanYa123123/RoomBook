@@ -1,0 +1,59 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pageButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #e2e8f0;
+  background-color: #f1f4f9;
+  color: #1e293b;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.pageButton:hover:not(.active) {
+  border-color: #cbd5e1;
+  background-color: #e8edf3;
+}
+
+.active {
+  background-color: #008968;
+  border-color: #008968;
+  color: #ffffff;
+  cursor: default;
+}
+
+.dots {
+  min-width: 20px;
+  text-align: center;
+  color: #64748b;
+}
+
+.navButton {
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  background-color: #f1f4f9;
+  color: #1e293b;
+  font-size: 15px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.navButton:hover {
+  border-color: #cbd5e1;
+  background-color: #e8edf3;
+}

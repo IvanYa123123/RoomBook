@@ -1,0 +1,169 @@
+.layout {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+/* Сводка */
+.summary {
+  background-color: #f1f4f9;
+  border-radius: 14px;
+  padding: 18px 18px 20px;
+}
+
+.score {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1;
+  color: #0f172a;
+}
+
+.bigStar {
+  color: #f5b301;
+  font-size: 38px;
+}
+
+.count {
+  margin-top: 6px;
+  text-align: center;
+  font-size: 14px;
+  color: #475569;
+}
+
+.bars {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.barRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.barLabel {
+  width: 10px;
+  font-size: 13px;
+  color: #334155;
+}
+
+.barTrack {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background-color: #dde2e9;
+  overflow: hidden;
+}
+
+.barFill {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  background-color: #f5b301;
+}
+
+/* Отзывы */
+.listWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.review {
+  background-color: #f1f4f9;
+  border-radius: 12px;
+  padding: 12px 16px 14px;
+}
+
+.reviewHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.author {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.date {
+  margin-top: 2px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.stars {
+  display: flex;
+  gap: 4px;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.starFilled {
+  color: #f5b301;
+}
+
+.starEmpty {
+  color: #cfd6df;
+}
+
+.text {
+  margin: 10px 0 0;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.45;
+  color: #0f172a;
+}
+
+.moreButton {
+  padding: 9px 22px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.moreButton:hover {
+  border-color: #94a3b8;
+  background-color: #f8fafc;
+}
+
+@media (max-width: 760px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .summary {
+    max-width: 320px;
+  }
+
+  .stars {
+    font-size: 16px;
+  }
+}

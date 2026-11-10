@@ -1,0 +1,208 @@
+.page {
+  background-color: #ffffff;
+  padding-bottom: 60px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+/* Серая панель с параметрами поиска */
+.searchBar {
+  background-color: #eef1f5;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.searchBarInner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #1e293b;
+  font-size: 16px;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.backLink:hover {
+  color: #008968;
+}
+
+.summaryChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  background-color: #dde2e9;
+  border-radius: 8px;
+  padding: 8px 10px 8px 12px;
+  font-size: 16px;
+  color: #0f172a;
+}
+
+.summaryText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.clearButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: #334155;
+  font-size: 20px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.15s ease;
+}
+
+.clearButton:hover {
+  background-color: rgba(15, 23, 42, 0.08);
+}
+
+/* Заголовок + фильтр по цене */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  padding: 28px 0 24px;
+}
+
+.title {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.5px;
+}
+
+.priceFilter {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 16px;
+  color: #1e293b;
+}
+
+.priceField {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.priceField input {
+  width: 96px;
+  height: 40px;
+  padding: 0 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  background-color: #ffffff;
+  font-size: 16px;
+  color: #0f172a;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.priceField input:focus {
+  border-color: #008968;
+}
+
+.currency {
+  color: #334155;
+}
+
+.applyButton {
+  height: 40px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #008968;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.05s ease;
+}
+
+.applyButton:hover {
+  background-color: #007559;
+}
+
+.applyButton:active {
+  transform: scale(0.98);
+}
+
+/* Сетка карточек */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 60px 20px;
+  text-align: center;
+  color: #475569;
+}
+
+.empty h2 {
+  margin: 0;
+  font-size: 22px;
+  color: #0f172a;
+}
+
+.paginationWrapper {
+  margin-top: 40px;
+}
+
+@media (max-width: 960px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .priceField input {
+    width: 84px;
+  }
+
+  .summaryChip {
+    font-size: 14px;
+  }
+}

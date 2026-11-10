@@ -1,0 +1,176 @@
+.page {
+  background-color: #ffffff;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+/* Верхний блок на сером фоне */
+.topSection {
+  background-color: #eef1f5;
+  padding: 20px 0 32px;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #1e293b;
+  font-size: 16px;
+  text-decoration: none;
+  margin-bottom: 24px;
+  transition: color 0.15s ease;
+}
+
+.backLink:hover {
+  color: #008968;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.name {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: #0f172a;
+  letter-spacing: -0.5px;
+}
+
+.address {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  color: #475569;
+}
+
+.pin {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  color: #0f172a;
+}
+
+.star {
+  color: #f5b301;
+  font-size: 18px;
+}
+
+.muted {
+  color: #64748b;
+}
+
+.description {
+  margin: 8px 0 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #1e293b;
+}
+
+/* Секции */
+.section {
+  padding: 36px 0 44px;
+}
+
+.reviewsSection {
+  padding-top: 8px;
+  padding-bottom: 60px;
+}
+
+.sectionTitle {
+  margin: 0 0 20px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.5px;
+}
+
+.roomsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+/* Отель не найден */
+.notFound {
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 60px 20px;
+  text-align: center;
+  color: #475569;
+}
+
+.notFound h1 {
+  margin: 0;
+  color: #0f172a;
+}
+
+.primaryLink {
+  margin-top: 8px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  background-color: #008968;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.primaryLink:hover {
+  background-color: #007559;
+}
+
+@media (max-width: 960px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .roomsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .name {
+    font-size: 26px;
+  }
+
+  .sectionTitle {
+    font-size: 22px;
+  }
+
+  .roomsGrid {
+    grid-template-columns: 1fr;
+  }
+}

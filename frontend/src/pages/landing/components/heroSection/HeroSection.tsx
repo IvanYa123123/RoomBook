@@ -1,18 +1,28 @@
 import React from 'react';
-import SearchForm from './searchForm/SearchForm';
+import { useNavigate } from 'react-router-dom';
+import SearchForm, { SearchFormValues } from './searchForm/SearchForm';
 import styles from './HeroSection.module.css';
 
 import heroBackground from '../../../../assets/landing/hero-bg.jpg';
 
 export const HeroSection: React.FC = () => {
-  const handleSearch = (values: unknown) => {
-    console.log('Параметры поиска:', values);
+  const navigate = useNavigate();
+
+  // Переход на страницу результатов поиска с параметрами в URL
+  const handleSearch = (values: SearchFormValues) => {
+    const params = new URLSearchParams({
+      destination: values.destination.trim(),
+      checkIn: values.checkIn,
+      checkOut: values.checkOut,
+      guests: String(values.guests),
+    });
+    navigate(`/search?${params.toString()}`);
   };
 
   return (
     <section
       className={styles.hero}
-      style={{ backgroundImage: `url(${heroBackground})` }} 
+      style={{ backgroundImage: `url(${heroBackground})` }}
     >
       <div className={styles.overlay} />
 

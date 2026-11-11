@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import HotelCard from '../../../../components/hotelCard/HotelCard';
 import { hotelsData } from '../../../../data/hotels_data';
 import styles from './PopularHotelsSections.module.css';
@@ -6,6 +7,8 @@ import styles from './PopularHotelsSections.module.css';
 export const PopularHotelsSection: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [visibleCards, setVisibleCards] = useState(3);
+
+  const navigate = useNavigate();
 
   //определяем, сколько карточек помещается на экран (3, 2 или 1)
   useEffect(() => {
@@ -89,7 +92,7 @@ export const PopularHotelsSection: React.FC = () => {
                 <HotelCard
                   hotel={hotel}
                   isSquareImage={false}
-                  onViewRooms={(id) => console.log('Клик по номеру отеля:', id)}
+                  onViewRooms={(id) => navigate(`/hotels/${id}`)}
                 />
               </div>
             ))}

@@ -11,11 +11,11 @@ module Api
 
         scope = Hotel.includes(:rooms, :reviews, photos_attachments: :blob).order(created_at: :desc)
         scope = scope.in_city(city)
-                     .with_capacity(guests)
                      .with_price_between(min_price, max_price)
-                     .available_between(check_in, check_out)
+                     .bookable(guests: guests, check_in: check_in, check_out: check_out)
 
-        hotels = scope.page(params[:page]).per(9)
+        # per_page берётся из Kaminari.configure (9 по умолчанию)
+        hotels = scope.page(params[:page])
         if hotels.total_pages.positive? && hotels.current_page > hotels.total_pages
           hotels = hotels.page(1)
         end

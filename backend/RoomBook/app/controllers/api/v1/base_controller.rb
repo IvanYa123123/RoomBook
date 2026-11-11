@@ -11,23 +11,26 @@ module Api
 
       attr_reader :current_user
 
+      # Bearer регистронезависим ("bearer", "BEARER" — ок).
       def authenticate_token_optional!
-        token = request.headers["Authorization"].to_s.delete_prefix("Bearer ").strip
+        token = request.headers["Authorization"].to_s.sub(/\ABearer\s+/i, "").strip
         @current_user = User.find_by(api_token: token) if token.present?
       end
 
       def require_guest!
         return render(json: { error: "Требуется вход" }, status: :unauthorized) unless current_user
-        render(json: { error: "Доступно только гостям" }, status: :forbidden) unless current_user.guest?
+        return render(json: { error: "Доступно только гостям" }, status: :forbidden) unless current_user.guest?
       end
 
       def require_host!
         return render(json: { error: "Требуется вход" }, status: :unauthorized) unless current_user
-        render(json: { error: "Доступно только владельцам отелей" }, status: :forbidden) unless current_user.host?
+        return render(json: { error: "Доступно только владельцам отелей" }, status: :forbidden) unless current_user.host?
       end
 
+      # Строгий формат YYYY-MM-DD; мусор → nil → фильтр не применяется.
       def parse_date(value)
-        Date.parse(value.to_s)
+        return nil if value.blank?
+        Date.iso8601(value.to_s)
       rescue ArgumentError, TypeError
         nil
       end
@@ -36,21 +39,11 @@ module Api
         render json: { errors: record.errors.full_messages }, status: :unprocessable_entity
       end
 
-      def photo_urls(record)
-        return [] unless record.photos.attached?
-        record.photos.map do |p|
-          { id: p.id, url: Rails.application.routes.url_helpers.rails_blob_url(p, host: request.base_url) }
-        end
-      end
-
-      def photo_url(record)
-        photo_urls(record).first&.dig(:url)
-      end
-
+      # Возвращает значение и для snake_case, и для camelCase ключей.
+      # Учитывает false/0 (presence "съел" бы их).
       def param_any(*keys)
         keys.each do |k|
-          v = params[k]
-          return v if v.present?
+          return params[k] if params.key?(k) && !params[k].nil?
         end
         nil
       end

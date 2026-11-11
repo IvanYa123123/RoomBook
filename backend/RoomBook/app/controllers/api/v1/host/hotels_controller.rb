@@ -10,7 +10,7 @@ module Api
                                .with_attached_photos
                                .includes(:rooms, :reviews, photos_attachments: :blob)
                                .order(created_at: :desc)
-          
+
           render json: { hotels: hotels.map { |h| HotelSerializer.card(h, request) } }
         end
 
@@ -26,14 +26,17 @@ module Api
         end
 
         def update
-          purge_photos
-          @hotel.photos.attach(params.dig(:hotel, :photos)) if params.dig(:hotel, :photos).present?
-
-          if @hotel.update(hotel_params.except(:remove_photo_ids, :photos))
-            render json: { hotel: HotelSerializer.card(@hotel, request) }
-          else
-            render_errors(@hotel)
+          # Транзакция: если update! упадёт, purge_photos тоже откатится
+          # (фото не потеряются).
+          ActiveRecord::Base.transaction do
+            purge_photos
+            @hotel.photos.attach(params.dig(:hotel, :photos)) if params.dig(:hotel, :photos).present?
+            @hotel.update!(hotel_params.except(:remove_photo_ids, :photos))
           end
+
+          render json: { hotel: HotelSerializer.card(@hotel, request) }
+        rescue ActiveRecord::RecordInvalid
+          render_errors(@hotel)
         end
 
         def destroy

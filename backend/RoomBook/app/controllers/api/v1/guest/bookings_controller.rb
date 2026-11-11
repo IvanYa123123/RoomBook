@@ -5,8 +5,9 @@ module Api
         before_action :require_guest!
 
         def index
+          # :review нужен для BookingSerializer#reviewable? (иначе N+1)
           scope = current_user.bookings
-                              .includes(room: { photos_attachments: :blob, hotel: { photos_attachments: :blob } })
+                              .includes(:review, room: [{ photos_attachments: :blob }, :hotel])
                               .order(check_in: :desc)
 
           scope = case params[:status]

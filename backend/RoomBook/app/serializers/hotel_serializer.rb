@@ -7,15 +7,17 @@ class HotelSerializer < BaseSerializer
       address: hotel.address,
       description: hotel.description,
       imageUrl: photo_url(hotel.photos.first, request),
-      photos: photos(hotel, request),
       rating: rating_of(hotel),
       reviewsCount: hotel.reviews.size,
       pricePerNight: min_price_of(hotel)&.to_f
     }
   end
 
+  # Полный набор фото — только на странице отеля.
+  # Раньше photos отдавались в каждом card → N×M url генераций в списке.
   def self.detail(hotel, request)
     card(hotel, request).merge(
+      photos: photos(hotel, request),
       rooms: hotel.rooms.sort_by(&:price_per_night).map { |r| RoomSerializer.call(r, request) },
       reviews: hotel.reviews.sort_by { |rv| -rv.created_at.to_i }.map { |rv| ReviewSerializer.call(rv) }
     )

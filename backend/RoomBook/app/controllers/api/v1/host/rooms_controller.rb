@@ -23,14 +23,16 @@ module Api
         end
 
         def update
-          purge_photos
-          @room.photos.attach(params.dig(:room, :photos)) if params.dig(:room, :photos).present?
-
-          if @room.update(room_params.except(:remove_photo_ids, :photos))
-            render json: { room: RoomSerializer.call(@room, request) }
-          else
-            render_errors(@room)
+          # Транзакция: purge_photos откатится, если update! упадёт.
+          ActiveRecord::Base.transaction do
+            purge_photos
+            @room.photos.attach(params.dig(:room, :photos)) if params.dig(:room, :photos).present?
+            @room.update!(room_params.except(:remove_photo_ids, :photos))
           end
+
+          render json: { room: RoomSerializer.call(@room, request) }
+        rescue ActiveRecord::RecordInvalid
+          render_errors(@room)
         end
 
         def destroy

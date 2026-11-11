@@ -16,6 +16,9 @@ module Api
         else
           render_errors(user)
         end
+      rescue ActiveRecord::RecordNotUnique
+        # Гонка между valid? и INSERT: уникальный индекс по email.
+        render json: { errors: ["E-mail уже занят"] }, status: :unprocessable_entity
       end
 
       def login

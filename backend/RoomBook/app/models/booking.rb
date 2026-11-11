@@ -7,7 +7,18 @@ class Booking < ApplicationRecord
 
   enum status: { pending: 0, confirmed: 1, cancelled: 2 }
 
-  before_validation :calculate_total_price
+  # Спасает от Booking.new без явного guests_count.
+  # От явного nil в new(guests_count: nil) спасает default в контроллере (см. bookings_controller).
+  attribute :guests_count, :integer, default: 1
+
+  # Пересчитываем total_price только при первичной вставке
+  # или при реальном изменении дат/номера. Иначе подтверждение брони
+  # (update status) будет пересчитывать цену по актуальному тарифу номера,
+  # что ломает историческую стоимость.
+  before_validation :calculate_total_price,
+                    if: -> { new_record? || will_save_change_to_check_in? ||
+                             will_save_change_to_check_out? ||
+                             will_save_change_to_room_id? }
 
   validates :check_in,  presence: true
   validates :check_out, presence: true

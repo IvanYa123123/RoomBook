@@ -12,6 +12,9 @@ Rails.application.configure do
 
   config.force_ssl = true
 
+  # Без config.hosts Rails 7 принимает любой Host (Host Header Injection).
+  config.hosts << ENV["APP_HOST"] if ENV["APP_HOST"].present?
+
   config.log_level = :info
   config.log_tags = [:request_id]
 

@@ -13,11 +13,6 @@ class Hotel < ApplicationRecord
 
   scope :in_city, ->(city) { where("city ILIKE ?", "%#{sanitize_sql_like(city.to_s.strip)}%") if city.present? }
 
-  scope :with_capacity, lambda { |guests|
-    next all if guests.blank?
-    where(id: Room.where("capacity >= ?", guests.to_i).select(:hotel_id))
-  }
-
   scope :with_price_between, lambda { |min_price, max_price|
     next all if min_price.blank? && max_price.blank?
 
@@ -36,22 +31,36 @@ class Hotel < ApplicationRecord
     where(id: ids)
   }
 
-  scope :available_between, lambda { |check_in, check_out|
-    next all if check_in.blank? || check_out.blank?
+  # Отель проходит фильтр, только если существует ОДИН номер,
+  # который одновременно вмещает гостей и свободен на выбранные даты.
+  # Раньше with_capacity и available_between проверяли разные номера.
+  scope :bookable, lambda { |guests:, check_in:, check_out:|
+    guests_n = guests.present? ? guests.to_i : nil
+    dates_ok = check_in.present? && check_out.present?
 
-    busy_rooms = Booking.where(status: %i[pending confirmed])
-                        .where("check_in < ? AND check_out > ?", check_out, check_in)
-                        .select(:room_id)
+    next all if guests_n.nil? && !dates_ok
 
-    where(id: Room.where.not(id: busy_rooms).select(:hotel_id))
+    rooms_scope = Room.all
+    rooms_scope = rooms_scope.where("capacity >= ?", guests_n) if guests_n && guests_n.positive?
+
+    if dates_ok
+      busy = Booking.where(status: %i[pending confirmed])
+                    .where("check_in < ? AND check_out > ?", check_out, check_in)
+                    .select(:room_id)
+      rooms_scope = rooms_scope.where.not(id: busy)
+    end
+
+    where(id: rooms_scope.select(:hotel_id))
   }
 
   def min_price
     rooms.minimum(:price_per_night)
   end
 
+  # .to_f обязателен: BigDecimal в JSON сериализуется как строка ("4.5"),
+  # а фронт делает rating.toFixed(1).
   def average_rating
-    reviews.average(:rating)&.round(1)
+    reviews.average(:rating)&.round(1)&.to_f
   end
 
   def reviews_count

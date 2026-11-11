@@ -6,12 +6,13 @@ module Api
 
         def index
           hotel_id = param_any(:hotel_id, :hotelId)
-          
+
+          # :review нужен для BookingSerializer#reviewable?
           scope = Booking.joins(room: :hotel)
                          .where(rooms: { hotel_id: current_user.hotels.select(:id) })
-                         .includes(:user, room: [{ photos_attachments: :blob }, :hotel])
+                         .includes(:user, :review, room: [{ photos_attachments: :blob }, :hotel])
                          .order(created_at: :desc)
-          
+
           scope = scope.where(rooms: { hotel_id: hotel_id }) if hotel_id.present?
 
           render json: {

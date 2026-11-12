@@ -11,7 +11,15 @@ class Hotel < ApplicationRecord
   validates :city,    presence: true, length: { maximum: 80 }
   validates :address, presence: true, length: { maximum: 200 }
 
-  scope :in_city, ->(city) { where("city ILIKE ?", "%#{sanitize_sql_like(city.to_s.strip)}%") if city.present? }
+  # ИСПРАВЛЕНО: раньше был `where(...) if city.present?` — при пустом city
+  # выражение возвращало nil, и следующий .with_price_between(...) падал
+  # с NoMethodError на GET /api/v1/hotels без параметра city/destination.
+  # Теперь при пустом/пробельном city возвращаем `all` — цепочка скопов
+  # остаётся Relation-ом (как у with_price_between и bookable ниже).
+  scope :in_city, lambda { |city|
+    next all if city.blank?
+    where("city ILIKE ?", "%#{sanitize_sql_like(city.to_s.strip)}%")
+  }
 
   scope :with_price_between, lambda { |min_price, max_price|
     next all if min_price.blank? && max_price.blank?
